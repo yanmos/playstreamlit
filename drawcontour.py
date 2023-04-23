@@ -21,6 +21,12 @@ G_END = 10
 
 def main(state):
     st.header("Draw contour into .xlsx")
+    tempfilename = "drawcontour_template.xlsx"
+    with open(tempfilename, "rb") as fdata:
+        st.download_button("Download template .xlsx file",
+                        data=fdata,
+                        mime='xlsx',
+                        file_name=tempfilename)
     st.session_state['state'] = G_INIT
     upfile = st.file_uploader("Upload xlsx file",
                 type="xlsx",
@@ -161,6 +167,7 @@ def make_contour(wb, ws, x_label, y_label, z_label, x, y, z, cmaps, methods):
         img = Image(buffer)
         ws.add_image(img, pos.coordinate)
         pos = pos.offset(GRAPH_POS_DEF, 0)
+        st.write(fig)
 
 def is_num(s):
     try:
