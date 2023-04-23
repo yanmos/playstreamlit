@@ -10,6 +10,7 @@ from io import BytesIO
 import tempfile
 from openpyxl.drawing.image import Image
 
+TEMPFILENAME = "drawcontour_template.xlsx"
 HEADER_POS = 'C5'
 GRAPH_POS = 'M6'
 GRAPH_POS_DEF = 26
@@ -20,13 +21,13 @@ G_UPLOADED = 1
 G_END = 10
 
 def main(state):
+    st.session_state['state'] = state
     st.header("Draw contour into .xlsx")
-    tempfilename = "drawcontour_template.xlsx"
-    with open(tempfilename, "rb") as fdata:
+    with open(TEMPFILENAME, "rb") as fdata:
         st.download_button("Download template .xlsx file",
                         data=fdata,
                         mime='xlsx',
-                        file_name=tempfilename)
+                        file_name=TEMPFILENAME)
     st.session_state['state'] = G_INIT
     upfile = st.file_uploader("Upload xlsx file",
                 type="xlsx",
