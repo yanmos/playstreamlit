@@ -20,14 +20,13 @@ G_INIT = 0              # general initial state number of process
 G_UPLOADED = 1          # general upload state number of process
 G_END = 10              # general end state number of process
 
-""" main process
-    display screen
-    button, download, upload
-    in
-        state: number of the process index
-    out
-        non
-"""
+#  main process
+#     display screen
+#     button, download, upload
+#     in
+#         state: number of the process index
+#     out
+#         non
 def main(state):
     st.session_state['state'] = state
     st.header("Draw contour into .xlsx")
@@ -61,15 +60,14 @@ def main(state):
                             mime='xlsx',
                             file_name=upfile.name)
 
-""" drawing contours
-    check the worksheets
-    display checkboxes, buttons
-    in
-        upfile: file like object
-        outfilename: tempolary filename for drawing
-    out
-        res: number of process index
-"""
+#  drawing contours
+#     check the worksheets
+#     display checkboxes, buttons
+#     in
+#         upfile: file like object
+#         outfilename: tempolary filename for drawing
+#     out
+#         res: number of process index
 def draw_contour(upfile, outfilename):
     wb = px.load_workbook(upfile, data_only=True)
     sheetnames = wb.sheetnames      # get the sheetnames of the workbook
@@ -94,36 +92,34 @@ def draw_contour(upfile, outfilename):
         res = G_END
     return res
 
-""" drawing a contour
-    save the result workbook
-    in
-        fileobj: file like object
-        in_shname: target sheetname
-        outfilename: tempolary filename for drawing
-    out
-        non
-"""
+#  drawing a contour
+#     save the result workbook
+#     in
+#         fileobj: file like object
+#         in_shname: target sheetname
+#         outfilename: tempolary filename for drawing
+#     out
+#         non
 def contour(fileobj, in_shname, outfilename):
     wb, ws, x_label, y_label, z_label, x, y, z, cmaps, methods = set_parameter(fileobj, in_shname)
     make_contour(wb, ws, x_label, y_label, z_label, x, y, z, cmaps, methods)
     wb.save(outfilename)
 
-""" set the parameters for drawing contour
-    in
-        in_fpath: file like object
-        in_shname: target sheetname
-    out
-        wb: workbook object
-        ws: worksheet object
-        x_label: x axis label string
-        y_label: y axis label string
-        z_label: z axis label string
-        x: the 1D array of x
-        y: the 1D array of y
-        z: the 1D array of z
-        cmaps: list of color map
-        methods: list of interpolating method
-"""
+#  set the parameters for drawing contour
+#     in
+#         in_fpath: file like object
+#         in_shname: target sheetname
+#     out
+#         wb: workbook object
+#         ws: worksheet object
+#         x_label: x axis label string
+#         y_label: y axis label string
+#         z_label: z axis label string
+#         x: the 1D array of x
+#         y: the 1D array of y
+#         z: the 1D array of z
+#         cmaps: list of color map
+#         methods: list of interpolating method
 def set_parameter(in_fpath, in_shname):
     # open workbook as data, ignore formula for reading parameters
     wb = px.load_workbook(in_fpath, data_only=True)
@@ -169,23 +165,22 @@ def set_parameter(in_fpath, in_shname):
     wb.active = ws
     return wb, ws, x_label, y_label, z_label, x, y, z, cmaps, methods
 
-""" drawing contour
-    interpolate grid as high resolution from input parameter
-    draw the contour from interpolated data.
-    in
-        wb: workbook object
-        ws: worksheet object
-        x_label: x axis label string
-        y_label: y axis label string
-        z_label: z axis label string
-        x: the 1D array of x
-        y: the 1D array of y
-        z: the 1D array of z
-        cmaps: list of color map
-        methods: list of interpolating method
-    out
-        non
-"""
+#  drawing contour
+#     interpolate grid as high resolution from input parameter
+#     draw the contour from interpolated data.
+#     in
+#         wb: workbook object
+#         ws: worksheet object
+#         x_label: x axis label string
+#         y_label: y axis label string
+#         z_label: z axis label string
+#         x: the 1D array of x
+#         y: the 1D array of y
+#         z: the 1D array of z
+#         cmaps: list of color map
+#         methods: list of interpolating method
+#     out
+#         non
 def make_contour(wb, ws, x_label, y_label, z_label, x, y, z, cmaps, methods):
     wGraph = ws[GRAPH_POS]
     pos = wGraph
@@ -237,12 +232,11 @@ def make_contour(wb, ws, x_label, y_label, z_label, x, y, z, cmaps, methods):
         pos = pos.offset(GRAPH_POS_DEF, 0)
         st.write(fig)
 
-""" check the float type
-    in
-        s: string of float
-    out
-        bool: if s is number then True, not number then False
-"""
+#  check the float type
+#     in
+#         s: string of float
+#     out
+#         bool: if s is number then True, not number then False
 def is_num(s):
     try:
         float(s)
@@ -257,8 +251,6 @@ def is_num(s):
     else:
         return True
 
-"""
-    start
-"""
+# start
 if __name__ == '__main__':
     main(G_INIT)
